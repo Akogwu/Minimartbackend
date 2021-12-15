@@ -13,7 +13,6 @@ import java.util.List;
 @AllArgsConstructor
 @Getter
 @Setter
-@ToString
 public class Seller extends User {
     @Nullable
     private String businessName;
@@ -22,4 +21,5 @@ public class Seller extends User {
     @JsonIgnore
     @OneToMany(mappedBy = "seller",cascade = CascadeType.ALL)
     private List<Product> products;
+
 }

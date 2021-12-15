@@ -1,6 +1,7 @@
 package edu.miu.minimarket.service.product;
 
 import edu.miu.minimarket.dto.ProductDto;
+import edu.miu.minimarket.model.product.Category;
 import edu.miu.minimarket.model.product.Product;
 import edu.miu.minimarket.repository.product.ProductRepository;
 import org.modelmapper.ModelMapper;
@@ -15,11 +16,13 @@ public class ProductServiceImpl implements ProductService{
 
     private ProductRepository productRepository;
     private ModelMapper modelMapper;
+    private CategoryService categoryService;
 
     @Autowired
-    public ProductServiceImpl(ProductRepository productRepository, ModelMapper modelMapper) {
+    public ProductServiceImpl(ProductRepository productRepository, ModelMapper modelMapper, CategoryService categoryService) {
         this.productRepository = productRepository;
         this.modelMapper = modelMapper;
+        this.categoryService = categoryService;
     }
 
     @Override
@@ -37,6 +40,8 @@ public class ProductServiceImpl implements ProductService{
 
     @Override
     public void saveProduct(ProductDto productDto) {
+        Category category = categoryService.findCategoryById(productDto.getCategory().getId());
+        productDto.assignCategoryToProduct(category);
         productRepository.save(modelMapper.map(productDto, Product.class));
     }
 

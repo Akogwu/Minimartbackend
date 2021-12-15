@@ -1,6 +1,7 @@
 package edu.miu.minimarket.service.user;
 
 import edu.miu.minimarket.dto.AdminDto;
+import edu.miu.minimarket.dto.ProductDto;
 import edu.miu.minimarket.dto.SellerDto;
 import edu.miu.minimarket.model.user.Admin;
 import edu.miu.minimarket.model.user.Seller;
@@ -16,5 +17,5 @@ public interface SellerService {
     void updateSeller(Seller seller);
     void approveSeller(Long id);
     void rejectSeller(Long id);
-
+    void addProduct(ProductDto productDto);
 }

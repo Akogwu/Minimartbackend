@@ -9,6 +9,7 @@ import edu.miu.minimarket.service.user.AdminService;
 import edu.miu.minimarket.service.user.BuyerService;
 import edu.miu.minimarket.service.user.SellerService;
 import edu.miu.minimarket.service.user.UserService;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,6 +21,7 @@ public class RegisterUserController {
     private SellerService sellerService;
     private AdminService adminService;
     private UserService userService;
+
 
     @Autowired
     public RegisterUserController(BuyerService buyerService, SellerService sellerService, AdminService adminService, UserService userService) {
@@ -46,7 +48,7 @@ public class RegisterUserController {
     }
 
     @PostMapping("/seller")
-    public void registerBuyer(@RequestBody SellerDto sellerDto){
+    public void registerSeller(@RequestBody SellerDto sellerDto){
         sellerService.saveSeller(sellerDto);
     }
 }

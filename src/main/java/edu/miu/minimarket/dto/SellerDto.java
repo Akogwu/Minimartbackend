@@ -1,15 +1,13 @@
 package edu.miu.minimarket.dto;
 
 import edu.miu.minimarket.model.user.Role;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
 @Setter
+@ToString
 public class SellerDto {
     private Long id;
     private String name;
@@ -21,4 +19,5 @@ public class SellerDto {
     private Role role;
 
     private String businessName;
+
 }

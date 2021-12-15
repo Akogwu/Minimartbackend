@@ -30,10 +30,19 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .csrf().disable()
+                .headers().frameOptions().disable()
+                .and()
                 .sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
-                .authorizeRequests().anyRequest().permitAll()
+                .authorizeRequests()
+                .antMatchers("/register").permitAll()
+                .antMatchers("/products/**").permitAll()
+                .antMatchers("/admin/**").permitAll()
+                .antMatchers("/buyer/**").permitAll()
+                .antMatchers("/seller/**").permitAll()
+                .antMatchers("/h2-console/**").permitAll()
+                .anyRequest().permitAll()
                 .and()
                 .addFilter(new CustomAuthenticationFilter(authenticationManagerBean()));
     }

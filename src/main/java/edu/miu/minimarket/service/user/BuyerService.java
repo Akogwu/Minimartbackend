@@ -10,4 +10,6 @@ public interface BuyerService {
     void deleteBuyerById(Long id);
     void saveBuyer(BuyerDto buyerDto);
     void updateBuyer(Buyer buyer);
+    void followSeller(Long buyer_id, Long sellerId);
+    void unFollowSeller(Long buyer_id, Long seller_id);
 }

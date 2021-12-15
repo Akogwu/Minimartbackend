@@ -1,5 +1,6 @@
 package edu.miu.minimarket.controller;
 
+import edu.miu.minimarket.dto.ProductDto;
 import edu.miu.minimarket.dto.SellerDto;
 import edu.miu.minimarket.service.user.SellerService;
 import org.modelmapper.ModelMapper;
@@ -12,11 +13,9 @@ import java.util.List;
 public class SellerController {
 
     private SellerService sellerService;
-    private ModelMapper modelMapper;
 
-    public SellerController(SellerService sellerService, ModelMapper modelMapper) {
+    public SellerController(SellerService sellerService) {
         this.sellerService = sellerService;
-        this.modelMapper = modelMapper;
     }
 
     @GetMapping
@@ -37,6 +36,11 @@ public class SellerController {
     @PutMapping
     public void updateSeller(@RequestBody SellerDto sellerDto){
         sellerService.saveSeller(sellerDto);
+    }
+
+    @PostMapping
+    public void addProduct(@RequestBody ProductDto productDto){
+        sellerService.addProduct(productDto);
     }
 
 

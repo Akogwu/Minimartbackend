@@ -14,10 +14,11 @@ public class BuyerDto {
     private Long id;
     private String name;
     private String username;
+    private String password;
     private String phone;
     private String email;
-    private int point = 0;
     private boolean active;
+    private int point = 0;
     private Role role;
 
 }

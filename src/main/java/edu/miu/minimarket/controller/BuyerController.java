@@ -34,7 +34,24 @@ public class BuyerController {
         buyerService.updateBuyer(buyer);
     }
 
+    @GetMapping("/{id}")
+    public BuyerDto getSingleBuyer(@PathVariable Long id){
+        return buyerService.findBuyerById(id);
+    }
+
     //Buyer Order Operations
+
+    @GetMapping("/{buyer_id}/follow/seller/{seller_id}")
+    public void followSeller(@PathVariable Long buyer_id,@PathVariable Long seller_id){
+        buyerService.followSeller(buyer_id,seller_id);
+    }
+
+    @GetMapping("/{buyer_id}/unfollow/seller/{seller_id}")
+    public void unFollowSeller(@PathVariable Long buyer_id,@PathVariable Long seller_id){
+        buyerService.unFollowSeller(buyer_id,seller_id);
+    }
+
+
 
     @PostMapping
     public void addToCart(){

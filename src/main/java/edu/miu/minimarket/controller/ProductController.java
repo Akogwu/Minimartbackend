@@ -39,8 +39,6 @@ public class ProductController {
 
     @PostMapping
     public void saveProduct(@RequestBody ProductDto productDto){
-        Category category = categoryService.findCategoryById(productDto.getCategory().getId());
-        productDto.assignCategoryToProduct(category);
         productService.saveProduct(productDto);
     }
 

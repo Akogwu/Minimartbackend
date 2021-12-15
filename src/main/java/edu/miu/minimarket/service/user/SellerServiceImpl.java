@@ -1,9 +1,12 @@
 package edu.miu.minimarket.service.user;
+import edu.miu.minimarket.dto.ProductDto;
 import edu.miu.minimarket.dto.SellerDto;
 import edu.miu.minimarket.model.user.Seller;
 import edu.miu.minimarket.repository.user.SellerRepository;
+import edu.miu.minimarket.service.product.ProductService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -16,11 +19,15 @@ public class SellerServiceImpl implements SellerService{
 
     private SellerRepository sellerRepository;
     private ModelMapper modelMapper;
+    private ProductService productService;
+    private PasswordEncoder passwordEncoder;
 
     @Autowired
-    public SellerServiceImpl(SellerRepository sellerRepository, ModelMapper modelMapper) {
+    public SellerServiceImpl(SellerRepository sellerRepository, ModelMapper modelMapper, ProductService productService, PasswordEncoder passwordEncoder) {
         this.sellerRepository = sellerRepository;
         this.modelMapper = modelMapper;
+        this.productService = productService;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @Override
@@ -42,6 +49,7 @@ public class SellerServiceImpl implements SellerService{
 
     @Override
     public void saveSeller(SellerDto sellerDto) {
+        sellerDto.setPassword(passwordEncoder.encode(sellerDto.getPassword()));
         sellerRepository.save(modelMapper.map(sellerDto,Seller.class));
     }
 
@@ -58,6 +66,12 @@ public class SellerServiceImpl implements SellerService{
     @Override
     public void rejectSeller(Long id) {
         sellerRepository.rejectSeller(id);
+    }
+
+    @Override
+    public void addProduct(ProductDto productDto) {
+        productDto.setSeller(productDto.getSeller());
+        productService.saveProduct(productDto);
     }
 
 

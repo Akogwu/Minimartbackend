@@ -1,26 +1,31 @@
 package edu.miu.minimarket.controller;
 
+import edu.miu.minimarket.model.user.User;
 import edu.miu.minimarket.service.user.AdminService;
+import edu.miu.minimarket.service.user.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/admin")
 public class AdminController {
 
     private AdminService adminService;
+    private UserService userService;
 
     @Autowired
-    public AdminController(AdminService adminService) {
+    public AdminController(AdminService adminService, UserService userService) {
         this.adminService = adminService;
+        this.userService = userService;
     }
 
-    @GetMapping
 
-    public String hello(){
-        return "Hello";
+    @GetMapping("users")
+    public List<User> getAllUsers(){
+        return userService.findAllUsers();
     }
-
 
     @GetMapping("/approve/seller/{id}")
     public void approveSeller(@PathVariable Long id){
