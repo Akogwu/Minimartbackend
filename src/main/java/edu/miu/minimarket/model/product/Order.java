@@ -13,7 +13,7 @@ import java.util.List;
 @AllArgsConstructor
 @Setter
 @Getter
-@ToString
+@Table(name = "order")
 public class Order {
     @Id
     @Column(name = "id", nullable = false)

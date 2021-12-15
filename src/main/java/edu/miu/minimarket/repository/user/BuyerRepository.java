@@ -9,4 +9,5 @@ import java.util.List;
 @Repository
 public interface BuyerRepository extends CrudRepository<Buyer,Long> {
     List<Buyer> findAll();
+    //Buyer findById(Long id);
 }

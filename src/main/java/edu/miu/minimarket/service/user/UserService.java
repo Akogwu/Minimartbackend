@@ -10,6 +10,7 @@ import java.util.List;
 public interface UserService {
     List<User> findAllUsers();
     User findUserById(Long id);
+    User findByUserName(String username);
     void deleteUserById(Long id);
     void saveUser(User user);
     void updateUser(User user);

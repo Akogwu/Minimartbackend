@@ -16,33 +16,43 @@ import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 @Service
 @Transactional
 @Slf4j
-public class UserServiceImpl implements UserService, UserDetailsService {
-
-    private UserRepository userRepository;
-    private final PasswordEncoder passwordEncoder;
-
+public class UserServiceImpl implements UserService{
     @Autowired
-    public UserServiceImpl(UserRepository userRepository, PasswordEncoder passwordEncoder) {
-        this.userRepository = userRepository;
-        this.passwordEncoder = passwordEncoder;
-    }
+    private BCryptPasswordEncoder bcryptEncoder;
+    @Autowired
+    private UserRepository userRepository;
+    //private final PasswordEncoder passwordEncoder;
 
+//    @Autowired
+//    public UserServiceImpl(UserRepository userRepository, PasswordEncoder passwordEncoder) {
+//        this.userRepository = userRepository;
+//        this.passwordEncoder = passwordEncoder;
+//    }
+
+
+    
+
+//    @Override
+//    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+//        User user = userRepository.findByUsername(username);
+//        if (user == null){
+//            throw new UsernameNotFoundException("User not found in database");
+//        }
+//        Collection<SimpleGrantedAuthority> authorities = new ArrayList<>();
+//        //Only adding single role, if user has multiple role, we need to loop
+//        authorities.add(new SimpleGrantedAuthority(user.getRole().name()));
+//        return new org.springframework.security.core.userdetails.User(user.getUsername(),user.getPassword(), authorities) ;
+//    }
     @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        User user = userRepository.findByUsername(username);
-        if (user == null){
-            throw new UsernameNotFoundException("User not found in database");
-        }
-        Collection<SimpleGrantedAuthority> authorities = new ArrayList<>();
-        //Only adding single role, if user has multiple role, we need to loop
-        authorities.add(new SimpleGrantedAuthority(user.getRole().name()));
-        return new org.springframework.security.core.userdetails.User(user.getUsername(),user.getPassword(), authorities) ;
+    public User findByUserName(String username) {
+        return userRepository.findByUsername(username);
     }
-
+    
     @Override
     public List<User> findAllUsers() {
         return userRepository.findAll();
@@ -60,7 +70,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
     @Override
     public void saveUser(User user) {
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        user.setPassword(bcryptEncoder.encode(user.getPassword()));
         userRepository.save(user);
     }
 

@@ -1,7 +1,8 @@
 package edu.miu.minimarket.dto;
 
-
-import edu.miu.minimarket.model.product.Order;
+import java.io.Serializable;
+import java.util.List;
+import java.util.Map;
 import lombok.*;
 
 @NoArgsConstructor
@@ -9,15 +10,16 @@ import lombok.*;
 @Setter
 @Getter
 @ToString
-public class PlaceOrderDto {
-    private Long id;
+public class PlaceOrderDto implements Serializable{
+    private Long id = 1L;
     private Long buyerId;
     private double price;
+    private List<Object> items;
 
-    public PlaceOrderDto(Order order){
-        this.setId(order.getId());
-        this.setBuyerId(order.getBuyer().getId());
-        this.setPrice(order.getTotalPrice());
+    public PlaceOrderDto(Long buyerId, double price, List<Object> items){
+        this.setBuyerId(buyerId);
+        this.setPrice(price);
+        this.setItems(items);
     }
 
 }
