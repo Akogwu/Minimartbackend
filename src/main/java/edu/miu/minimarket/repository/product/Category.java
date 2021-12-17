@@ -1,12 +1,11 @@
 package edu.miu.minimarket.repository.product;
 
-import edu.miu.minimarket.model.product.Category;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
 @Repository
-public interface CategoryRepository extends CrudRepository<Category, Long> {
-    List<Category> findAll();
+public interface Category extends CrudRepository<edu.miu.minimarket.model.product.Category, Long> {
+    List<edu.miu.minimarket.model.product.Category> findAll();
 }

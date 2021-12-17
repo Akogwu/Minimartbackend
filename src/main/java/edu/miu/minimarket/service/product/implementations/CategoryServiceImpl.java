@@ -1,7 +1,7 @@
-package edu.miu.minimarket.service.product;
+package edu.miu.minimarket.service.product.implementations;
 
-import edu.miu.minimarket.model.product.Category;
-import edu.miu.minimarket.repository.product.CategoryRepository;
+import edu.miu.minimarket.repository.product.Category;
+import edu.miu.minimarket.service.product.CategoryService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -10,38 +10,38 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
-public class CategoryServiceImpl implements CategoryService{
+public class CategoryServiceImpl implements CategoryService {
 
-    private CategoryRepository categoryRepository;
+    private Category categoryRepository;
     private ModelMapper modelMapper;
 
 
     @Autowired
-    public CategoryServiceImpl(CategoryRepository categoryRepository, ModelMapper modelMapper) {
+    public CategoryServiceImpl(Category categoryRepository, ModelMapper modelMapper) {
         this.categoryRepository = categoryRepository;
         this.modelMapper = modelMapper;
     }
 
     @Override
-    public List<Category> findAllCategory() {
+    public List<edu.miu.minimarket.model.product.Category> findAllCategory() {
         return categoryRepository.findAll().stream()
-                .map(category -> modelMapper.map(category, Category.class))
+                .map(category -> modelMapper.map(category, edu.miu.minimarket.model.product.Category.class))
                 .collect(Collectors.toList());
     }
 
     @Override
-    public Category findCategoryById(Long id) {
+    public edu.miu.minimarket.model.product.Category findCategoryById(Long id) {
         return categoryRepository.findById(id)
-                .map(category -> modelMapper.map(category, Category.class)).orElse(null);
+                .map(category -> modelMapper.map(category, edu.miu.minimarket.model.product.Category.class)).orElse(null);
     }
 
     @Override
-    public void saveCategory(Category category) {
+    public void saveCategory(edu.miu.minimarket.model.product.Category category) {
         categoryRepository.save(modelMapper.map(category, edu.miu.minimarket.model.product.Category.class));
     }
 
     @Override
-    public void updateCategory(Category category) {
+    public void updateCategory(edu.miu.minimarket.model.product.Category category) {
         categoryRepository.save(modelMapper.map(category, edu.miu.minimarket.model.product.Category.class));
     }
 

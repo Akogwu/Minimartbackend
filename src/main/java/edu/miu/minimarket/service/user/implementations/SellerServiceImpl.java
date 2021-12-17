@@ -1,9 +1,10 @@
-package edu.miu.minimarket.service.user;
+package edu.miu.minimarket.service.user.implementations;
 import edu.miu.minimarket.dto.ProductDto;
 import edu.miu.minimarket.dto.SellerDto;
 import edu.miu.minimarket.model.user.Seller;
 import edu.miu.minimarket.repository.user.SellerRepository;
 import edu.miu.minimarket.service.product.ProductService;
+import edu.miu.minimarket.service.user.SellerService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -15,7 +16,7 @@ import java.util.stream.Collectors;
 
 @Service
 @Transactional
-public class SellerServiceImpl implements SellerService{
+public class SellerServiceImpl implements SellerService {
 
     private SellerRepository sellerRepository;
     private ModelMapper modelMapper;

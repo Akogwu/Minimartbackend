@@ -1,8 +1,10 @@
-package edu.miu.minimarket.service.user;
+package edu.miu.minimarket.service.user.implementations;
 
 import edu.miu.minimarket.dto.AdminDto;
 import edu.miu.minimarket.model.user.Admin;
 import edu.miu.minimarket.repository.user.AdminRepository;
+import edu.miu.minimarket.service.user.AdminService;
+import edu.miu.minimarket.service.user.SellerService;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 

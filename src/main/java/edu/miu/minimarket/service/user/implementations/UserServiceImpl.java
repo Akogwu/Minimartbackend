@@ -1,8 +1,9 @@
-package edu.miu.minimarket.service.user;
+package edu.miu.minimarket.service.user.implementations;
 
 import edu.miu.minimarket.model.user.Role;
 import edu.miu.minimarket.model.user.User;
 import edu.miu.minimarket.repository.user.UserRepository;
+import edu.miu.minimarket.service.user.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;

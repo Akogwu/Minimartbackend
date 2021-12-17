@@ -9,13 +9,16 @@ import edu.miu.minimarket.service.user.AdminService;
 import edu.miu.minimarket.service.user.BuyerService;
 import edu.miu.minimarket.service.user.SellerService;
 import edu.miu.minimarket.service.user.UserService;
-import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+
 @RestController
-@RequestMapping("/register")
-public class RegisterUserController {
+@RequestMapping("auth/api")
+@CrossOrigin(origins = {"http://localhost:3000"})
+public class AuthUserController {
 
     private BuyerService buyerService;
     private SellerService sellerService;
@@ -24,31 +27,49 @@ public class RegisterUserController {
 
 
     @Autowired
-    public RegisterUserController(BuyerService buyerService, SellerService sellerService, AdminService adminService, UserService userService) {
+    public AuthUserController(BuyerService buyerService, SellerService sellerService, AdminService adminService, UserService userService) {
         this.buyerService = buyerService;
         this.sellerService = sellerService;
         this.adminService = adminService;
         this.userService = userService;
     }
 
-    @PostMapping("/user")
+    @PostMapping("/register/user")
     public void registerUser(@RequestBody User user){
         user.setRole(Role.valueOf(user.getRole().name()));
         userService.saveUser(user);
     }
 
-    @PostMapping("/admin")
+    @PostMapping("/register/admin")
     public void registerAdmin(@RequestBody AdminDto adminDto){
         adminService.saveAdmin(adminDto);
     }
 
-    @PostMapping("/buyer")
+    @PostMapping("/register/buyer")
     public void registerBuyer(@RequestBody BuyerDto buyerDto){
         buyerService.saveBuyer(buyerDto);
     }
 
-    @PostMapping("/seller")
+    @PostMapping("/register/seller")
     public void registerSeller(@RequestBody SellerDto sellerDto){
         sellerService.saveSeller(sellerDto);
     }
+
+
+    //@PostMapping("/signin")
+//    public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
+//
+//        Authentication authentication = authenticationManager.authenticate(
+//                new UsernamePasswordAuthenticationToken(
+//                        loginRequest.getUsernameOrEmail(),
+//                        loginRequest.getPassword()
+//                )
+//        );
+//
+//        SecurityContextHolder.getContext().setAuthentication(authentication);
+//
+//        String jwt = tokenProvider.generateToken(authentication);
+//        return ResponseEntity.ok(new JwtAuthenticationResponse(jwt,(UserPrincipal)authentication.getPrincipal()));
+//    }
+
 }

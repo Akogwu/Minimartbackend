@@ -2,8 +2,8 @@ package edu.miu.minimarket.controller;
 
 import edu.miu.minimarket.dto.ProductDto;
 import edu.miu.minimarket.dto.SellerDto;
+import edu.miu.minimarket.service.product.CategoryService;
 import edu.miu.minimarket.service.user.SellerService;
-import org.modelmapper.ModelMapper;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -13,9 +13,11 @@ import java.util.List;
 public class SellerController {
 
     private SellerService sellerService;
+    private CategoryService categoryService;
 
-    public SellerController(SellerService sellerService) {
+    public SellerController(SellerService sellerService, CategoryService categoryService) {
         this.sellerService = sellerService;
+        this.categoryService = categoryService;
     }
 
     @GetMapping
@@ -38,7 +40,7 @@ public class SellerController {
         sellerService.saveSeller(sellerDto);
     }
 
-    @PostMapping
+    @PostMapping("/addProduct")
     public void addProduct(@RequestBody ProductDto productDto){
         sellerService.addProduct(productDto);
     }

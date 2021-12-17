@@ -9,5 +9,6 @@ import java.util.List;
 @Repository
 public interface OrderRepository extends CrudRepository<Order,Long> {
     List<Order> findAll();
-    List<Order> findAllByBuyerIdOrderByCreatedDateDesc(Long buyerId);
+    //List<Order> findAllByBuyerIdOrderByorderDateDesc(Long buyerId);
+    List<Order> findAllByBuyerId(Long buyerId);
 }

@@ -15,7 +15,7 @@ public class SellerDto {
     private String password;
     private String phone;
     private String email;
-    private boolean active;
+    private boolean active ;
     private Role role;
 
     private String businessName;
