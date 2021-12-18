@@ -106,7 +106,8 @@ public class BuyerServiceImpl implements BuyerService {
         assert buyer != null;
         List<Seller> followedByThisBuyer = buyerRepository.findSellersFollowedByThisBuyer(buyer_id);
         List<Seller> removeSellerWithThisId = followedByThisBuyer.stream()
-                .filter(_seller -> !Objects.equals(_seller.getId(), seller_id)).toList();
+                .filter(_seller -> !Objects.equals(_seller.getId(), seller_id))
+                .collect(Collectors.toList());
         buyer.setSellers(removeSellerWithThisId);
     }
 
