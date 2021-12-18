@@ -21,5 +21,4 @@ public class Admin {
     private String phone;
     private String email;
     private boolean active;
-    private Role role;
 }

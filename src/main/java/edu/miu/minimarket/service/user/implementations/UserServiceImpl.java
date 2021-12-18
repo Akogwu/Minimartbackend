@@ -1,10 +1,13 @@
 package edu.miu.minimarket.service.user.implementations;
 
+import edu.miu.minimarket.dto.UserDto;
 import edu.miu.minimarket.model.user.Role;
 import edu.miu.minimarket.model.user.User;
+import edu.miu.minimarket.repository.user.RoleRepository;
 import edu.miu.minimarket.repository.user.UserRepository;
 import edu.miu.minimarket.service.user.UserService;
 import lombok.extern.slf4j.Slf4j;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -25,11 +28,15 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
     private UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
+    private RoleRepository roleRepository;
+    private ModelMapper modelMapper;
 
     @Autowired
-    public UserServiceImpl(UserRepository userRepository, PasswordEncoder passwordEncoder) {
+    public UserServiceImpl(UserRepository userRepository, PasswordEncoder passwordEncoder, RoleRepository roleRepository, ModelMapper modelMapper) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
+        this.roleRepository = roleRepository;
+        this.modelMapper = modelMapper;
     }
 
     @Override
@@ -39,8 +46,9 @@ public class UserServiceImpl implements UserService, UserDetailsService {
             throw new UsernameNotFoundException("User not found in database");
         }
         Collection<SimpleGrantedAuthority> authorities = new ArrayList<>();
-        //Only adding single role, if user has multiple role, we need to loop
-        authorities.add(new SimpleGrantedAuthority(user.getRole().name()));
+        user.getRoles().forEach(role -> {
+            authorities.add(new SimpleGrantedAuthority(role.getName()));
+        });
         return new org.springframework.security.core.userdetails.User(user.getUsername(),user.getPassword(), authorities) ;
     }
 
@@ -52,6 +60,12 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     @Override
     public User findUserById(Long id) {
         return userRepository.findById(id).orElse(null);
+    }
+
+    @Override
+    public UserDto findUserByUsername(String username) {
+      User user =  userRepository.findUserByUsername(username);
+      return modelMapper.map(user,UserDto.class);
     }
 
     @Override
@@ -71,11 +85,16 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     }
 
     @Override
+    public void saveRole(Role role) {
+        roleRepository.save(role);
+    }
+
+    @Override
     public void addRoleToUser(String username, String roleName) {
         User user = userRepository.findUserByUsername(username);
-        Role role = Role.valueOf(roleName);
+        Role role = roleRepository.findByName(roleName);
         log.info("Adding role {} to user {}",roleName, username);
-        user.setRole(role);
+        user.getRoles().add(role);
     }
 
 

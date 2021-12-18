@@ -2,6 +2,7 @@ package edu.miu.minimarket.controller;
 
 import edu.miu.minimarket.dto.ProductDto;
 import edu.miu.minimarket.dto.SellerDto;
+import edu.miu.minimarket.model.user.Seller;
 import edu.miu.minimarket.service.product.CategoryService;
 import edu.miu.minimarket.service.user.SellerService;
 import org.springframework.web.bind.annotation.*;
@@ -36,8 +37,8 @@ public class SellerController {
     }
 
     @PutMapping
-    public void updateSeller(@RequestBody SellerDto sellerDto){
-        sellerService.saveSeller(sellerDto);
+    public void updateSeller(@RequestBody Seller seller){
+        sellerService.saveSeller(seller);
     }
 
     @PostMapping("/addProduct")

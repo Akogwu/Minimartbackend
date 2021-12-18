@@ -1,23 +1,23 @@
 package edu.miu.minimarket.dto;
 
 import edu.miu.minimarket.model.user.Role;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.util.List;
-
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
 @Setter
-@ToString
-public class SellerDto {
+public class UserDto {
     private Long id;
     private String name;
     private String username;
     private String phone;
     private String email;
-    private boolean active ;
+    private boolean active;
     private List<Role> roles;
-    private String businessName;
 
 }

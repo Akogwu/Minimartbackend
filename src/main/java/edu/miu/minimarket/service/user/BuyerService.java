@@ -12,7 +12,7 @@ public interface BuyerService {
     List<BuyerDto> findAllBuyers();
     BuyerDto findBuyerById(Long id);
     void deleteBuyerById(Long id);
-    void saveBuyer(BuyerDto buyerDto);
+    void saveBuyer(Buyer buyer);
     void updateBuyer(Buyer buyer);
     void followSeller(Long buyer_id, Long sellerId);
     void unFollowSeller(Long buyer_id, Long seller_id);

@@ -3,6 +3,7 @@ package edu.miu.minimarket.service.product.implementations;
 import edu.miu.minimarket.dto.ProductDto;
 import edu.miu.minimarket.model.product.Category;
 import edu.miu.minimarket.model.product.Product;
+import edu.miu.minimarket.model.user.Seller;
 import edu.miu.minimarket.repository.product.ProductRepository;
 import edu.miu.minimarket.service.product.CategoryService;
 import edu.miu.minimarket.service.product.ProductService;

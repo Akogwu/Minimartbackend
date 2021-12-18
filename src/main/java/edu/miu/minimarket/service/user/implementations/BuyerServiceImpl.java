@@ -1,16 +1,15 @@
 package edu.miu.minimarket.service.user.implementations;
 
 import edu.miu.minimarket.dto.BuyerDto;
-import edu.miu.minimarket.dto.OrderDto;
 import edu.miu.minimarket.model.product.CartItem;
 import edu.miu.minimarket.model.product.Order;
-import edu.miu.minimarket.model.product.ShoppingCart;
 import edu.miu.minimarket.model.user.Buyer;
+import edu.miu.minimarket.model.user.Role;
 import edu.miu.minimarket.model.user.Seller;
 import edu.miu.minimarket.repository.product.CartItemRepository;
 import edu.miu.minimarket.repository.user.BuyerRepository;
+import edu.miu.minimarket.repository.user.RoleRepository;
 import edu.miu.minimarket.service.product.OrderService;
-import edu.miu.minimarket.service.product.ShoppingCartService;
 import edu.miu.minimarket.service.user.BuyerService;
 import edu.miu.minimarket.service.user.SellerService;
 import org.modelmapper.ModelMapper;
@@ -19,7 +18,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -34,6 +33,7 @@ public class BuyerServiceImpl implements BuyerService {
     private PasswordEncoder passwordEncoder;
     private CartItemRepository cartItemRepository;
     private OrderService orderService;
+    private RoleRepository roleRepository;
 
 
 
@@ -44,14 +44,14 @@ public class BuyerServiceImpl implements BuyerService {
                             SellerService sellerService,
                             PasswordEncoder passwordEncoder,
                             CartItemRepository cartItemRepository,
-                            OrderService orderService) {
+                            OrderService orderService, RoleRepository roleRepository) {
         this.modelMapper = modelMapper;
         this.buyerRepository = buyerRepository;
         this.sellerService = sellerService;
         this.passwordEncoder = passwordEncoder;
         this.cartItemRepository = cartItemRepository;
         this.orderService = orderService;
-
+        this.roleRepository = roleRepository;
     }
 
     @Override
@@ -70,10 +70,18 @@ public class BuyerServiceImpl implements BuyerService {
     }
 
     @Override
-    public void saveBuyer(BuyerDto buyerDto) {
-        Buyer buyer = modelMapper.map(buyerDto,Buyer.class);
+    public void saveBuyer(Buyer buyer) {
+        String roleStr = buyer.getRoles().get(0).getName();
+        buyer.setRoles(new ArrayList<>());;
         buyer.setPassword(passwordEncoder.encode(buyer.getPassword()));
         buyerRepository.save(buyer);
+        addRoleToBuyer(buyer.getUsername(),roleStr);
+    }
+
+    public void addRoleToBuyer(String username, String roleName) {
+        Buyer buyer = buyerRepository.findBuyerByUsername(username);
+        Role role = roleRepository.findByName(roleName);
+        buyer.getRoles().add(role);
     }
 
     @Override

@@ -14,4 +14,6 @@ public interface BuyerRepository extends CrudRepository<Buyer,Long> {
 
     @Query("SELECT b.sellers FROM Buyer b WHERE b.id = :buyerId")
     List<Seller> findSellersFollowedByThisBuyer(Long buyerId);
+
+    Buyer findBuyerByUsername(String username);
 }
