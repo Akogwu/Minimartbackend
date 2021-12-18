@@ -1,33 +1,42 @@
-package edu.miu.minimarket.service.user;
+package edu.miu.minimarket.service.user.implementations;
 import edu.miu.minimarket.dto.ProductDto;
 import edu.miu.minimarket.dto.SellerDto;
+import edu.miu.minimarket.model.user.Role;
 import edu.miu.minimarket.model.user.Seller;
+import edu.miu.minimarket.model.user.User;
+import edu.miu.minimarket.repository.user.RoleRepository;
 import edu.miu.minimarket.repository.user.SellerRepository;
 import edu.miu.minimarket.service.product.ProductService;
+import edu.miu.minimarket.service.user.SellerService;
+import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
 @Transactional
-public class SellerServiceImpl implements SellerService{
+@Slf4j
+public class SellerServiceImpl implements SellerService {
 
     private SellerRepository sellerRepository;
     private ModelMapper modelMapper;
     private ProductService productService;
     private PasswordEncoder passwordEncoder;
+    private RoleRepository roleRepository;
 
     @Autowired
-    public SellerServiceImpl(SellerRepository sellerRepository, ModelMapper modelMapper, ProductService productService, PasswordEncoder passwordEncoder) {
+    public SellerServiceImpl(SellerRepository sellerRepository, ModelMapper modelMapper, ProductService productService, PasswordEncoder passwordEncoder, RoleRepository roleRepository) {
         this.sellerRepository = sellerRepository;
         this.modelMapper = modelMapper;
         this.productService = productService;
         this.passwordEncoder = passwordEncoder;
+        this.roleRepository = roleRepository;
     }
 
     @Override
@@ -48,9 +57,15 @@ public class SellerServiceImpl implements SellerService{
     }
 
     @Override
-    public void saveSeller(SellerDto sellerDto) {
-        sellerDto.setPassword(passwordEncoder.encode(sellerDto.getPassword()));
-        sellerRepository.save(modelMapper.map(sellerDto,Seller.class));
+    public void saveSeller(Seller seller) {
+        String roleSt = seller.getRoles().get(0).getName();
+        seller.setRoles(new ArrayList<>());
+        seller.setPassword(passwordEncoder.encode(seller.getPassword()));
+        log.info("Role: {}",seller );
+        Role role = roleRepository.findByName(roleSt);
+        sellerRepository.save(seller);
+        addRoleToSeller(seller.getUsername(),role.getName());
+
     }
 
     @Override
@@ -72,6 +87,13 @@ public class SellerServiceImpl implements SellerService{
     public void addProduct(ProductDto productDto) {
         productDto.setSeller(productDto.getSeller());
         productService.saveProduct(productDto);
+    }
+
+    @Override
+    public void addRoleToSeller(String username, String roleName) {
+        Seller seller = sellerRepository.findSellerByUsername(username);
+        Role role = roleRepository.findByName(roleName);
+        seller.getRoles().add(role);
     }
 
 

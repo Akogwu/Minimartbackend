@@ -5,7 +5,6 @@ import edu.miu.minimarket.model.product.Order;
 import edu.miu.minimarket.model.product.Product;
 import lombok.*;
 import javax.persistence.*;
-import java.util.ArrayList;
 import java.util.List;
 
 
@@ -23,6 +22,7 @@ public class Buyer extends User{
 
     @JsonIgnore
     @OneToMany
+    @JoinTable(name =  "buyer_orders")
     private List<Order> orders;
 
     @OneToMany(cascade = CascadeType.MERGE)

@@ -1,6 +1,7 @@
 package edu.miu.minimarket.repository.user;
 
 import edu.miu.minimarket.model.user.Seller;
+import edu.miu.minimarket.model.user.User;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
@@ -19,4 +20,5 @@ public interface SellerRepository extends CrudRepository<Seller,Long> {
     @Modifying
     @Query("update Seller s set s.active = false where s.id =:id")
     void rejectSeller(Long id);
+    Seller findSellerByUsername(String username);
 }

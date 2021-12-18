@@ -15,9 +15,12 @@ public class ProductDto {
     private String title;
     private String description;
     private double price;
-    private String img;
+    private String image;
+    private int quantity;
+    private Long cat_id;
     private Category category;
     private Seller seller;
+
 
     public  void assignCategoryToProduct(Category category){
         this.category = category;

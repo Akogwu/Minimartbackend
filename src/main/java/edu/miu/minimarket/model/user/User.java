@@ -1,10 +1,11 @@
 package edu.miu.minimarket.model.user;
 
 import lombok.*;
-import org.hibernate.validator.constraints.UniqueElements;
-
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 
 @Entity
 @NoArgsConstructor
@@ -33,7 +34,9 @@ public class User {
     private String email;
 
     private boolean active;
-    private Role role;
+
+    @ManyToMany(targetEntity = Role.class, fetch = FetchType.EAGER)
+    private List<Role> roles = new ArrayList<>();
 
 
 }

@@ -1,38 +1,45 @@
 package edu.miu.minimarket.model.product;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import edu.miu.minimarket.model.user.Buyer;
-import lombok.*;
+import edu.miu.minimarket.model.user.Seller;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
 import java.time.LocalDate;
-import java.util.List;
 
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
 @Setter
 @Getter
-@ToString
 public class Order {
     @Id
     @Column(name = "id", nullable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "created_date")
-    private LocalDate createdDate;
-    private String orderStatus;
-    private double totalPrice;
+    @OneToOne
+    private ShoppingCart shoppingCart;
 
-    @ManyToOne(cascade = CascadeType.ALL, targetEntity = Buyer.class)
-    @JoinColumn(name = "order_id", referencedColumnName = "id")
+    private String status;
+
+    @ManyToOne
     private Buyer buyer;
 
-    @JsonIgnore
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<OrderItem> orderItems;
 
+    private LocalDate orderDate;
 
-
+    @Override
+    public String toString() {
+        return "Order{" +
+                "id=" + id +
+                ", shoppingCart=" + shoppingCart +
+                ", status='" + status + '\'' +
+                ", buyer=" + buyer +
+                ", orderDate=" + orderDate +
+                '}';
+    }
 }

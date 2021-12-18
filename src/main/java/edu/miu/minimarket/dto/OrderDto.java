@@ -1,6 +1,12 @@
 package edu.miu.minimarket.dto;
 
-import lombok.*;
+import edu.miu.minimarket.model.product.ShoppingCart;
+import edu.miu.minimarket.model.user.Buyer;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import org.springframework.lang.Nullable;
 
 import java.time.LocalDate;
 
@@ -8,14 +14,13 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @Setter
 @Getter
-@ToString
 public class OrderDto {
-
     private Long id;
-    private LocalDate createdDate;
-    private String orderStatus;
-    private double totalPrice;
+    private ShoppingCart shoppingCart;
+    private Buyer buyer;
 
+    private String status;
 
-
+    @Nullable
+    private LocalDate orderDate;
 }

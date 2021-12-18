@@ -1,7 +1,13 @@
 package edu.miu.minimarket.controller;
 
 import edu.miu.minimarket.dto.BuyerDto;
+import edu.miu.minimarket.dto.CartItemDto;
+import edu.miu.minimarket.dto.OrderDto;
+import edu.miu.minimarket.model.product.CartItem;
+import edu.miu.minimarket.model.product.Order;
+import edu.miu.minimarket.model.product.ShoppingCart;
 import edu.miu.minimarket.model.user.Buyer;
+import edu.miu.minimarket.service.product.ShoppingCartService;
 import edu.miu.minimarket.service.user.BuyerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -13,10 +19,12 @@ import java.util.List;
 public class BuyerController {
 
     private BuyerService buyerService;
+    private ShoppingCartService shoppingCartService;
 
     @Autowired
-    public BuyerController(BuyerService buyerService) {
+    public BuyerController(BuyerService buyerService, ShoppingCartService shoppingCartService) {
         this.buyerService = buyerService;
+        this.shoppingCartService = shoppingCartService;
     }
 
     @GetMapping
@@ -51,18 +59,36 @@ public class BuyerController {
         buyerService.unFollowSeller(buyer_id,seller_id);
     }
 
-
-
-    @PostMapping
-    public void addToCart(){
-
+    @PostMapping("/addProductToCart")
+    public void addProductToCart(@RequestBody CartItemDto cartItemDto){
+        shoppingCartService.addShoppingCart(cartItemDto);
     }
 
-    public void placeOrder(){
+    @GetMapping("/{id}/shoppingCart")
+    public ShoppingCart getThisBuyerShoppingCart(@PathVariable Long id){
+        return shoppingCartService.getShoppingCartByBuyerId(id);
+    }
 
+    @GetMapping("/{buyerId}/update/CartItem/{cartItemId}/quantity/{quantity}")
+    public void updateThisCartItem(@PathVariable Long buyerId, @PathVariable Long cartItemId, @PathVariable int quantity){
+        buyerService.updateThisShoppingCart(buyerId,cartItemId,quantity);
     }
 
 
+    @GetMapping("/{buyerId}/remove/CartItem/{cartItemId}")
+    public void removeThisCartItemFromShopping(@PathVariable Long buyerId, @PathVariable Long cartItemId){
+        shoppingCartService.removeThisItemFromShoppingCart(buyerId,cartItemId);
+    }
+
+    @PostMapping("/placeOrder")
+    public void addOrder(@RequestBody Order order){
+        buyerService.placeNewOrder(order);
+    }
+
+//    @GetMapping("/viewCart/{id}")
+//    public List<CartItem> getThisBuyerShoppingCart(@PathVariable Long id){
+//        return buyerService.viewBuyerCart(id);
+//    }
 
 
 }

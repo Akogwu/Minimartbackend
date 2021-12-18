@@ -19,11 +19,13 @@ public class Product {
 
     private String title;
 
+    private int quantity;
+
     @Column(columnDefinition = "text")
     private String description;
 
     private double price;
-    private String img;
+    private String image;
 
     @ManyToOne(cascade = CascadeType.ALL,targetEntity = Category.class)
     @JoinColumn(name = "category_id",referencedColumnName = "id")
