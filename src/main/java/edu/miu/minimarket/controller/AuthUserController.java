@@ -18,9 +18,14 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -89,10 +94,10 @@ public class AuthUserController {
 
         Map<String,Object> tokens = new HashMap<>();
         tokens.put("access_token",token);
-//        tokens.put("refresh_token",refresh_token);
           tokens.put("user",userService.findUserByUsername(request.getUsername()) );
         return ResponseEntity.ok(tokens);
     }
+
 }
 
 
